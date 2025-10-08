@@ -1,0 +1,51 @@
+# Archivos y directorios a ignorar al construir la imagen Docker
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Replit específicos
+.replit
+.cache/
+.pythonlibs/
+.upm/
+replit.nix
+
+# Documentación y logs
+*.md
+*.log
+.env
+
+# Archivos temporales
+*.tmp
+*.bak
+*~
+
+# Node modules (si existieran)
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db

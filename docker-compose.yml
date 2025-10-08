@@ -1,0 +1,42 @@
+# Docker Compose para Sistema de Gestión de Inventarios
+# Facilita la construcción y ejecución del contenedor
+
+version: '3.8'
+
+services:
+  # Servicio principal de la aplicación
+  inventario-app:
+    # Nombre del contenedor
+    container_name: sistema-inventarios
+    
+    # Construir desde el Dockerfile en el directorio actual
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # Mapeo de puertos: host:contenedor
+    ports:
+      - "5000:5000"
+    
+    # Variables de entorno
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HOST=0.0.0.0
+      - PORT=5000
+    
+    # Volumen para persistir la base de datos
+    volumes:
+      - ./inventario.db:/app/inventario.db
+      - ./src:/app/src
+    
+    # Reiniciar automáticamente si falla
+    restart: unless-stopped
+    
+    # Nombre de la red
+    networks:
+      - inventario-network
+
+# Definición de redes
+networks:
+  inventario-network:
+    driver: bridge
