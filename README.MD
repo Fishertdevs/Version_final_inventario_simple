@@ -523,4 +523,3 @@ eel.obtener_clientes()(function(clientes) {
 ![alt text](image-1.png)
 ---
 
-**Desarrollado con ❤️ usando Python y Eel**
