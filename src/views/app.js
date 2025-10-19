@@ -81,6 +81,7 @@ async function loadClientes() {
     try {
         clientesData = await eel.obtener_clientes()();
         renderClientesTable();
+        updateClienteSelects();
     } catch (error) {
         showNotification('Error al cargar clientes', 'error');
     }
@@ -354,9 +355,9 @@ function updateProductoSelects() {
 }
 
 // FUNCIONES DE VENTAS
-function showVentaForm() {
-    loadClientes(); // Cargar clientes para el select
-    loadProductos(); // Cargar productos para el select
+async function showVentaForm() {
+    await loadClientes(); // Cargar clientes para el select
+    await loadProductos(); // Cargar productos para el select
     
     const form = document.getElementById('ventaForm');
     const formData = document.getElementById('ventaFormData');
@@ -575,7 +576,7 @@ function hideConfirmModal() {
 // EVENT LISTENERS
 document.addEventListener('DOMContentLoaded', function() {
     // Cargar datos iniciales
-    loadClientes();
+    loadProveedores();
     
     // Formulario de clientes
     document.getElementById('clienteFormData').addEventListener('submit', async function(e) {
@@ -723,6 +724,19 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('confirmModal').addEventListener('click', function(e) {
         if (e.target === this) {
             hideConfirmModal();
+        }
+    });
+    
+    // Formato automático de decimales en campos de precio
+    const precioFields = ['productoPrecio', 'ventaPrecioUnitario', 'compraPrecioUnitario'];
+    precioFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.addEventListener('blur', function() {
+                if (this.value && !isNaN(this.value)) {
+                    this.value = parseFloat(this.value).toFixed(2);
+                }
+            });
         }
     });
 });
