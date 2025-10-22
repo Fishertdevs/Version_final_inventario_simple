@@ -344,6 +344,7 @@ function updateProductoSelects() {
                 option.textContent = `${producto.nombre} - Stock: ${producto.stock}`;
                 option.dataset.precio = producto.precio;
                 option.dataset.stock = producto.stock;
+                option.dataset.idProveedor = producto.id_proveedor;
                 select.appendChild(option);
             });
             
@@ -485,6 +486,49 @@ function showCompraForm() {
 
 function hideCompraForm() {
     document.getElementById('compraForm').style.display = 'none';
+}
+
+function filterProductosByProveedor() {
+    const proveedorSelect = document.getElementById('compraProveedor');
+    const productoSelect = document.getElementById('compraProducto');
+    const proveedorId = proveedorSelect.value;
+    
+    productoSelect.innerHTML = '<option value="">Seleccionar producto</option>';
+    document.getElementById('compraProductInfo').style.display = 'none';
+    
+    if (!proveedorId) {
+        productosData.forEach(producto => {
+            const option = document.createElement('option');
+            option.value = producto.id_producto;
+            option.textContent = `${producto.nombre} - Stock: ${producto.stock}`;
+            option.dataset.precio = producto.precio;
+            option.dataset.stock = producto.stock;
+            option.dataset.idProveedor = producto.id_proveedor;
+            productoSelect.appendChild(option);
+        });
+    } else {
+        const productosFiltrados = productosData.filter(producto => 
+            producto.id_proveedor == proveedorId
+        );
+        
+        if (productosFiltrados.length === 0) {
+            const option = document.createElement('option');
+            option.value = "";
+            option.textContent = "No hay productos de este proveedor";
+            option.disabled = true;
+            productoSelect.appendChild(option);
+        } else {
+            productosFiltrados.forEach(producto => {
+                const option = document.createElement('option');
+                option.value = producto.id_producto;
+                option.textContent = `${producto.nombre} - Stock: ${producto.stock}`;
+                option.dataset.precio = producto.precio;
+                option.dataset.stock = producto.stock;
+                option.dataset.idProveedor = producto.id_proveedor;
+                productoSelect.appendChild(option);
+            });
+        }
+    }
 }
 
 function updateCompraProductInfo() {
@@ -740,3 +784,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
